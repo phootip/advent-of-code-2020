@@ -3,13 +3,15 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"strconv"
 	"strings"
 )
 
 func main() {
 	fmt.Println("Day7")
-	// rawDat, _ := ioutil.ReadFile("input.txt")
-	rawDat, _ := ioutil.ReadFile("example.txt")
+	rawDat, _ := ioutil.ReadFile("input.txt")
+	// rawDat, _ := ioutil.ReadFile("example.txt")
+	// rawDat, _ := ioutil.ReadFile("example2.txt")
 	file := strings.Split(string(rawDat[:len(rawDat)-1]),"\n")
 	rules := make(map[string][][]string)
 	for _, rawRule := range file {
@@ -30,14 +32,23 @@ func main() {
 		}
 	}
 	fmt.Println(rules)
-	fmt.Println(part2(rules,"shinygold"))
+	fmt.Println(part2(rules,"shinygold",1)-1)
 }
 
-func part2(rules map[string][][]string,bag string) int {
+func part2(rules map[string][][]string,bag string, amount int) int {
 	ans := 0
 	needed := rules[bag]
+	if len(needed) == 0 {
+		return amount
+	}
 	fmt.Println(needed)
-	return ans
+	for _, bag := range needed {
+		fmt.Println("ans: ",ans)
+		fmt.Println("bag: ",bag)
+		newAmount, _ := strconv.Atoi(bag[0])
+		ans += part2(rules, bag[1], newAmount*amount)
+	}
+	return amount+ans
 }
 
 func contain(strArr []string, str string) bool{
