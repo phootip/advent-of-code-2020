@@ -39,7 +39,7 @@ func part2(data [][]string) int{
 						nextData[y][x] = "#"
 					}
 				case "#":
-					if getAdjOcc(data,x,y) >= 4 {
+					if getAdjOcc(data,x,y) >= 5 {
 						nextData[y][x] = "L"
 					}
 				default:
@@ -55,21 +55,26 @@ func part2(data [][]string) int{
 		return getAns(nextData)
 	}
 	mem = append(mem, temp)
-	return part1(nextData)
+	return part2(nextData)
 }
 
 func getAdjOcc(data [][]string, x int, y int) int {
 	// checkList := [][]int{}
 	result := 0
 	if data[y][x] == "#" {result--}
-	for i := x-1; i <= x+1; i++ {
-		for j := y-1; j <= y+1; j++ {
+	for i := -1; i <= +1; i++ {
+		for j := -1; j <= +1; j++ {
 			func () {
 				defer func() {
 				if err := recover(); err != nil {
 				}
 				}()
-				if data[j][i] == "#" {
+				offSetX, offSetY := i, j
+				for data[y+offSetY][x+offSetX] == "." {
+					offSetX += i
+					offSetY += j
+				}
+				if data[y+offSetY][x+offSetX] == "#" {
 					result++
 				}
 			}()
