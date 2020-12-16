@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	// data := []int{0,3,6}
+	// data := []int{0,3,6} // 175594
 	// data := []int{1,3,2} // 1
 	// data := []int{2,1,3} // 10
 	// data := []int{1,2,3} // 27
@@ -13,7 +13,6 @@ func main() {
 	// data := []int{3,2,1} // 438
 	// data := []int{3,1,2} // 1836
 	data := []int{0,14,1,3,7,9} // 763 
-	fmt.Println(data)
 	fmt.Println("Part1 :", part1(data))
 }
 
@@ -25,21 +24,19 @@ func part1(data []int) int {
 	lastNum := data[len(data)-1]
 	nextNum := 0
 	count := len(data)
-	for count < 2020 {
+	for count < 30000000 {
 		nextNum = getNextNum(mem, lastNum)
-		fmt.Println(nextNum)
 		mem[nextNum] = append(mem[nextNum], count)
 		lastNum = nextNum
 		count++
+		fmt.Println(count)
 	}
 	
-	fmt.Println(mem)
 	return nextNum
 }
 
 func getNextNum(mem map[int][]int, lastNum int) int{
 	temp := mem[lastNum]
-	fmt.Println(temp)
 	if len(temp) == 1 {
 		return 0
 	}
